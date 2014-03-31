@@ -1,0 +1,1 @@
+window.write("hey hey")

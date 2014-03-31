@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			function loadXMLDoc() {
+				var xmlhttp, txt, x, xx, i;
+				
+				if(window.XMLHttpRequest){
+					xmlhttp = new XMLHttpRequest()
+				}
+				else {
+					xmlhttp = ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState==4 && xmlhttp.status == 200)
+					{
+						txt = "<table border = '1'><tr><th>Address</th><th>SQFT</th><th>Longitude</th><th>Latitude</th></tr>";
+						x = JSON.parse(xmlhttp.responseText).features;
+						for (i=0; i<5; i++) {
+							txt = txt + "<tr>";
+							xx = x[i].properties.street;
+							{
+								try {
+									txt = txt + "<td>" + xx;
+								}
+								catch (er) {
+									txt = txt + "<td> </td>";
+								}
+							}
+							xx = x[i].properties.sqFt;
+							{
+								try {
+									txt = txt + "<td>" + xx;
+								}
+								catch (er) {
+									txt = txt + "<td> </td>";
+								}
+							}
+							xx = x[i].geometry.coordinates[0];
+							{
+								try {
+									txt = txt + "<td>" + xx;
+								}
+								catch (er) {
+									txt = txt + "<td> </td>";
+								}
+							}
+							xx = x[i].geometry.coordinates[1];
+							{
+								try {
+									txt = txt + "<td>" + xx;
+								}
+								catch (er) {
+									txt = txt + "<td> </td>";
+								}
+							}
+
+							txt = txt + "</tr>";
+						}
+						document.getElementById("myDiv").innerHTML = txt;
+						console.log(xx);
+					}
+				}
+
+				xmlhttp.open("GET", "vacant-lots/vacantlots.geojson", true);
+				xmlhttp.send();
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="myDiv"><h1>Here is to be changed</h1></div>
+		<button type="button" onclick="loadXMLDoc()">Change</button>
+	</body>
+</html>
